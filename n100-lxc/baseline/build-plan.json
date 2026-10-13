@@ -1,0 +1,123 @@
+{
+  "status": "source-researched; not compiled or tested on the target PVE host",
+  "researched_at": "2026-10-13",
+  "requirements": {
+    "cpu": "Intel N100",
+    "wan": "1000 Mbit/s",
+    "lan": "2500 Mbit/s",
+    "host_kernel_reported": "7.0.14-8-pve",
+    "proxy_managers": [
+      "Passwall2",
+      "SSR Plus+",
+      "OpenClash"
+    ],
+    "additional_services": [
+      "ZeroTier",
+      "vlmcsd"
+    ],
+    "concurrent_transparent_proxy_managers": 1,
+    "initial_production_proxy_manager": "Passwall2"
+  },
+  "sources": {
+    "openwrt": {
+      "repository": "https://github.com/openwrt/openwrt",
+      "ref": "v25.12.5"
+    },
+    "passwall2": {
+      "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall2",
+      "ref": "26.10.1-2"
+    },
+    "passwall_packages": {
+      "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages",
+      "ref": null,
+      "note": "Resolve and record a commit providing the chosen release-associated packages; do not silently build moving main.",
+      "release_associated_sing_box": "1.14.2",
+      "release_associated_xray_base": "26.9.30"
+    },
+    "ssr_plus": {
+      "repository": "https://github.com/fw876/helloworld",
+      "ref": "v196.19",
+      "note": "The current development branch is dev; old master is not the current release baseline."
+    },
+    "openclash": {
+      "repository": "https://github.com/vernesong/OpenClash",
+      "ref": "v0.48.002"
+    },
+    "mihomo": {
+      "repository": "https://github.com/MetaCubeX/mihomo",
+      "ref": "v1.19.32"
+    },
+    "vlmcsd_recipe": {
+      "repository": "https://github.com/immortalwrt/packages",
+      "ref": "84bd86384928955b568988ca0e09e2c78c75173d",
+      "subdirectory": "net/vlmcsd",
+      "note": "Import this recipe, not the entire alternative packages feed."
+    },
+    "golang_recipe": {
+      "repository": "https://github.com/openwrt/packages",
+      "ref": null,
+      "subdirectory": "lang/golang",
+      "minimum_series": "1.27",
+      "note": "The OpenWrt release-pinned feed defaults to Go 1.26; Xray v26.9.30 requires 1.27. Pin a suitable upstream recipe commit, following the PW2 SDK workflow approach."
+    }
+  },
+  "duplicate_package_policy": {
+    "xray_core": "First compatibility candidate: SSR v196.19 recipe 26.9.30-r5, shared with PW2; it adds SSR-specific patches. Validate both generators and live nodes. If compatibility requires separate cores, rename one package and use PW2 global_app.xray_file with a separate binary path. Never let feed order select the provider accidentally.",
+    "mihomo": "Use the fixed v1.19.32 source. SSR recipe installs /usr/libexec/mihomo with /usr/bin/mihomo alternative. Provision a separately managed copy at /etc/openclash/core/clash_meta with mode 0755. Disable automatic core replacement until controlled upgrade testing.",
+    "shared_dependencies": "Resolve exactly one provider each for dnsmasq-full, ip-full, chinadns-ng, shadowsocksr-libev, geodata and other duplicate feed recipes; review resulting package manifest."
+  },
+  "container_adaptation": [
+    "Use a root-level tar.gz filesystem, with executable /sbin/init; not a combined disk image.",
+    "Apply console setup and sysntpd disabling as in the LXC project OpenWrt image recipe.",
+    "Apply the LXC recipe's targeted dnsmasq jail adaptation if retaining the default CT confinement; test vlmcsd's procd jail separately and preserve its service user.",
+    "Use ostype=unmanaged, one veth on the existing public LAN bridge, and OpenWrt UCI to manage addresses.",
+    "Begin with an unprivileged CT, default AppArmor, precise /dev/net/tun mapping; do not default to unconfined or unrestricted device access.",
+    "PVE provides nft/socket/tproxy/tun/inet_diag functionality. Do not load OpenWrt-built modules into PVE.",
+    "Keep package dependency metadata; do not solve host functionality by force-depends or fake kernel packages.",
+    "All three proxy managers must be disabled in a generic template; enable only PW2 after importing and validating the actual configuration.",
+    "Disable LAN DHCP/RA; retain IPv4 forwarding and disabled ICMP send/accept redirects."
+  ],
+  "performance_baseline": {
+    "ct_memory_limit_mib": 1024,
+    "ct_cores_initial": 2,
+    "ct_rootfs_gib": 4,
+    "software_flow_offload": false,
+    "hardware_flow_offload": false,
+    "cpu_tuning": "Generic x86-64 first; AES acceleration comes from userspace implementations. Never use the remote build server's -march=native for an unknown target. Consider v3 only after N100 feature verification and measurements.",
+    "rss_rps": "Inspect the PVE-controlled physical NIC and queues; adjust only for measured per-core saturation. Passed-through NICs belong to iKuai.",
+    "bbr": "Optional experiment for locally terminated TCP proxy connections, not a universal forwarding or UDP accelerator."
+  },
+  "acceptance": [
+    "Build with make defconfig and inspect effective package providers, dependency closure and manifest.",
+    "Audit and remove unused x86 device-default boot/storage packages from the CT manifest, including GRUB utilities and filesystem formatters where dependencies permit.",
+    "Provision OpenClash core plus the actual required geodata/rule resources; run all core version/config checks.",
+    "Verify CT cold boot, firewall reload, DNS service restart, nft TPROXY rules, policy routing, TCP and UDP forwarding.",
+    "Verify ZeroTier creates its TAP interface, joins the intended network, and has the intended direct transport route.",
+    "Verify vlmcsd listens and responds on the intended LAN scope.",
+    "Validate each proxy manager independently; stop and check cleanup before switching managers.",
+    "Preserve .3 domestic DNS, .4 foreign DNS, .4 source-based proxy and independent bootstrap DNS; no recursive interception through .4.",
+    "Test ordinary DNS plus fresh uncached domains, ad blocking, TCP and UDP with no unexpected DNS destinations.",
+    "Benchmark same-LAN iperf separately from routed direct traffic, proxy traffic and ZeroTier traffic.",
+    "A test CT on another address does not fully test foreign ADG return routing: .4 still uses .2 as its gateway until the controlled cutover.",
+    "After PVE kernel upgrades, repeat host feature and CT networking validation."
+  ],
+  "references": [
+    "https://github.com/lxc/lxc-ci/blob/main/images/openwrt.yaml",
+    "https://github.com/proxmox/pve-docs/blob/master/pct.adoc",
+    "https://github.com/proxmox/pve-container/blob/master/src/PVE/LXC/Config.pm",
+    "https://docs.kernel.org/networking/tproxy.html",
+    "https://docs.kernel.org/networking/nf_flowtable.html",
+    "https://docs.kernel.org/networking/scaling.html",
+    "https://docs.zerotier.com/docker/",
+    "https://github.com/Openwrt-Passwall/openwrt-passwall2/blob/26.10.1-2/.github/workflows/Auto%20compile%20with%20openwrt%20sdk.yml",
+    "https://wiki.metacubex.one/config/dns/"
+  ],
+  "handoff": {
+    "ssh_alias": "5880y",
+    "project_root": "/data/disk2/lyy_dataset/openwrt/",
+    "prompt": "lxc-build/AGENT_PROMPT.txt",
+    "scope": "Clone and build on the designated Linux server; keep all newly created project files, caches, environments, logs and artifacts under the project root.",
+    "maintenance": "Create or reuse a GitHub fork when authenticated, preserve official upstream history, use a custom branch, commit reproducible configuration/patches/lockfiles/scripts, and provide tested upstream-stable update/rebuild/regression/rollback procedures.",
+    "target_validation": "Build-server kernel validation is not PVE 7.0.14-8-pve/N100 acceptance. Report untested target-dependent items explicitly."
+  }
+}

@@ -1,0 +1,4 @@
+#!/bin/sh
+# procd already reloads ZeroTier on UCI changes.
+rm -f /tmp/luci-indexcache
+exit 0

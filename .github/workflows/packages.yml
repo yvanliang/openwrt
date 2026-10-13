@@ -19,6 +19,8 @@ on:
       - 'toolchain/**'
     branches-ignore:
       - master
+      # These branches use n100-lxc.yml, which prepares pinned feeds and Go.
+      - 'n100-pve-lxc/**'
 
 permissions:
   contents: read

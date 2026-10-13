@@ -1,0 +1,11 @@
+--- a/luci-app-passwall2/root/usr/share/passwall2/app.sh
++++ b/luci-app-passwall2/root/usr/share/passwall2/app.sh
+@@ -904,7 +904,7 @@
+ 	export ENABLE_DEPRECATED_GEOSITE=true
+ 	export ENABLE_DEPRECATED_GEOIP=true
+ 	export SS_SYSTEM_DNS_RESOLVER_FORCE_BUILTIN=1
+-	ulimit -n 65535
++	ulimit -Sn 65535
+ 	start_haproxy
+ 	start_socks
+ 	nftflag=0

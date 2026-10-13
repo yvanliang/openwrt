@@ -1,0 +1,13 @@
+--- etc/init.d/vlmcsd
++++ etc/init.d/vlmcsd
+@@ -39,8 +39,8 @@
+ 
+ 	procd_set_param user vlmcsd
+ 	procd_set_param group vlmcsd
+-	procd_add_jail vlmcsd ronly log
+-	procd_add_jail_mount "/etc/vlmcsd.ini"
++	: procd_add_jail vlmcsd ronly log
++	: procd_add_jail_mount "/etc/vlmcsd.ini"
+ 
+ 	if [ "$internet_access" -eq "1" ];then
+ 		procd_open_data

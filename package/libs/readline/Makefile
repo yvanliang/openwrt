@@ -62,6 +62,12 @@ TARGET_LDFLAGS += $(FPIC)
 HOST_CFLAGS += $(HOST_FPIC)
 HOST_LDFLAGS += $(HOST_FPIC)
 
+define Build/Install
+	$(call Build/Install/Default)
+	# GNU readline saves replaced libraries; these are not runtime package inputs.
+	$(RM) $(PKG_INSTALL_DIR)/usr/lib/lib{history,readline}.so*.old
+endef
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/readline $(1)/usr/include/

@@ -1,0 +1,21 @@
+#!/bin/sh
+# Read-only audit after package changes; no kernel modules or host mutations.
+set -eu
+failed=0
+if ! grep -q 'Kernel modules must be managed on the PVE host' /sbin/kmodloader; then
+ echo 'FAIL: ubox update may have replaced the CT module-loader adaptation.'
+ failed=1
+fi
+for service in dnsmasq vlmcsd; do
+ if grep -qE '^[[:space:]]*procd_add_jail([[:space:]]|$)' /etc/init.d/$service; then
+  echo "FAIL: $service update restored the inner jail; reapply the reviewed LXC adaptation."
+  failed=1
+ fi
+done
+for link in /etc/rc.d/S*sysntpd /etc/rc.d/S*sysfixtime; do
+ [ ! -e "$link" ] || { echo "FAIL: host clock service enabled: $link"; failed=1; }
+done
+test -x /etc/openclash/core/clash_meta || failed=1
+if [ "$failed" -eq 0 ]; then echo 'PASS: static LXC adaptations intact'; fi
+echo 'This audit does not prove host kernel functionality or service behavior.'
+exit "$failed"

@@ -1,0 +1,44 @@
+{
+  "geoip": {
+    "repository": "https://github.com/Loyalsoldier/geoip.git",
+    "tag": "202610080033",
+    "commit": "424733bd132427dbd505ccc3b8e3ebc427494063",
+    "download_url": "https://github.com/Loyalsoldier/geoip/releases/download/202610080033/geoip.dat",
+    "cache_file": "geoip.dat.202610080033",
+    "sha256": "116cc0f03d48991962f7f9cdbbcf53d45d89777f9c3cd1a663210853e5df6093",
+    "license": "CC-BY-SA-4.0 (declared by pinned package recipe)"
+  },
+  "geosite": {
+    "repository": "https://github.com/Loyalsoldier/v2ray-rules-dat.git",
+    "tag": "202610092207",
+    "commit": "b8ee45341f4995e9bcfd5babe667412841a43ffa",
+    "download_url": "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/download/202610092207/geosite.dat",
+    "cache_file": "geosite.dat.202610092207",
+    "sha256": "79d15a5bd8205d83c377fcfde394500db762b2b400feff24612834e528a111cb",
+    "license": "MIT (declared by pinned package recipe)"
+  },
+  "Country.mmdb": {
+    "repository": "https://github.com/vernesong/OpenClash.git",
+    "tag": "v0.48.002",
+    "commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+    "recipe_file": "package/n100-lxc/luci-app-openclash/root/etc/openclash/Country.mmdb",
+    "sha256": "165435212030a8e5508edfd40d51294bf4155fc2c43fc7c6f5f8969b69bd2625",
+    "license": "OpenClash GPL-3.0 distribution; upstream data terms apply. Country includes MaxMind metadata; alecthw build scripts MIT."
+  },
+  "china_ip_route.ipset": {
+    "repository": "https://github.com/vernesong/OpenClash.git",
+    "tag": "v0.48.002",
+    "commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+    "recipe_file": "package/n100-lxc/luci-app-openclash/root/etc/openclash/china_ip_route.ipset",
+    "sha256": "953136c06acc857be0daf6d80483b0cb0881c9bdf3eae21d323d5b7dd217ede7",
+    "license": "OpenClash GPL-3.0 distribution; upstream routing data terms apply"
+  },
+  "china_ip6_route.ipset": {
+    "repository": "https://github.com/vernesong/OpenClash.git",
+    "tag": "v0.48.002",
+    "commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+    "recipe_file": "package/n100-lxc/luci-app-openclash/root/etc/openclash/china_ip6_route.ipset",
+    "sha256": "4750683e77404a699bac2ebbbd893ba755da074c8cb40b753b042c9cd1082665",
+    "license": "OpenClash GPL-3.0 distribution; upstream routing data terms apply"
+  }
+}

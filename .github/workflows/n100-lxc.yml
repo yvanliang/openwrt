@@ -1,0 +1,90 @@
+name: Build and release N100 LXC template
+
+on:
+  push:
+    branches: ['n100-pve-lxc/25.12.5']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish a release after every verification passes
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: n100-lxc-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.repository == 'yvanliang/openwrt' && github.ref == 'refs/heads/n100-pve-lxc/25.12.5'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360
+    env:
+      PROJECT_ROOT: /data/disk2/lyy_dataset/openwrt
+      TMPDIR: /data/disk2/lyy_dataset/openwrt/work/tmp
+      TMP: /data/disk2/lyy_dataset/openwrt/work/tmp
+      TEMP: /data/disk2/lyy_dataset/openwrt/work/tmp
+      XDG_CACHE_HOME: /data/disk2/lyy_dataset/openwrt/cache/xdg
+      PYTHONPYCACHEPREFIX: /data/disk2/lyy_dataset/openwrt/cache/python
+    steps:
+      - name: Check out exact source under the project root
+        shell: bash
+        env:
+          SOURCE_COMMIT: ${{ github.sha }}
+          SOURCE_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          sudo mkdir -p "$PROJECT_ROOT"
+          sudo chown "$(id -u):$(id -g)" "$PROJECT_ROOT"
+          mkdir -p "$PROJECT_ROOT"/{work/tmp,logs,cache,artifacts,repos}
+          git init "$PROJECT_ROOT/repos/openwrt"
+          cd "$PROJECT_ROOT/repos/openwrt"
+          git remote add origin "https://github.com/$SOURCE_REPOSITORY.git"
+          git fetch --depth=1 origin "$SOURCE_COMMIT"
+          git checkout --detach FETCH_HEAD
+          test "$(git rev-parse HEAD)" = "$SOURCE_COMMIT"
+          git remote add upstream https://github.com/openwrt/openwrt.git
+          git fetch --depth=1 upstream refs/tags/v25.12.5:refs/tags/v25.12.5
+
+      - name: Prepare disposable hosted-runner storage
+        shell: bash
+        run: bash "$PROJECT_ROOT/repos/openwrt/n100-lxc/scripts/github-hosted-prepare.sh"
+
+      - name: Build from source and verify
+        id: build
+        shell: bash
+        run: bash "$PROJECT_ROOT/repos/openwrt/n100-lxc/scripts/ci-build.sh"
+
+      - name: Save build and diagnostic artifacts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: n100-lxc-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            /data/disk2/lyy_dataset/openwrt/artifacts/**/publish/*
+            /data/disk2/lyy_dataset/openwrt/logs/**
+          if-no-files-found: warn
+          retention-days: 14
+          compression-level: 0
+
+      - name: Publish verified release
+        if: success() && (github.event_name == 'push' || inputs.publish)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_COMMIT: ${{ github.sha }}
+          RELEASE_TAG: ${{ steps.build.outputs.release_tag }}
+          PUBLISH_DIRECTORY: ${{ steps.build.outputs.publish_directory }}
+        run: |
+          set -euo pipefail
+          cd "$PUBLISH_DIRECTORY"
+          gh release create "$RELEASE_TAG" \
+            --target "$SOURCE_COMMIT" --title "OpenWrt 25.12.5 N100 LXC — $RELEASE_TAG" \
+            --notes-file RELEASE-NOTES.md --draft \
+            rootfs.tar.gz BUILD-INFO.json N100-LXC.md \
+            build-details.tar.gz build-logs.tar.gz RELEASE-NOTES.md
+          gh release edit "$RELEASE_TAG" --draft=false

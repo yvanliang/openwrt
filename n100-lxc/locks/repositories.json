@@ -1,0 +1,85 @@
+{
+  "openwrt": {
+    "repository": "https://github.com/openwrt/openwrt.git",
+    "commit": "f0a60eee2fe051741c643ea6118718aae1ef17fb",
+    "tag": "v25.12.5",
+    "license": "GPL-2.0-only"
+  },
+  "passwall2": {
+    "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall2.git",
+    "commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+    "tag": "26.10.1-2",
+    "license": "GPL-3.0-only"
+  },
+  "helloworld": {
+    "repository": "https://github.com/fw876/helloworld.git",
+    "commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "tag": "v196.19",
+    "license": "GPL-3.0-or-later; individual recipes retain own licenses"
+  },
+  "passwall-packages": {
+    "repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "license": "individual PKG_LICENSE in locked recipes"
+  },
+  "openclash": {
+    "repository": "https://github.com/vernesong/OpenClash.git",
+    "commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+    "tag": "v0.48.002",
+    "license": "GPL-3.0-only"
+  },
+  "packages-current": {
+    "repository": "https://github.com/openwrt/packages.git",
+    "commit": "a855effe82552e22cefc973cdd5af175c9364414",
+    "license": "individual recipe SPDX/PKG_LICENSE"
+  },
+  "feed-packages": {
+    "repository": "https://github.com/openwrt/packages.git",
+    "commit": "5caa62e0bc9f7fb9b0c12a23267bceb7724214dd",
+    "license": "individual package PKG_LICENSE from fixed feed commit"
+  },
+  "feed-luci": {
+    "repository": "https://github.com/openwrt/luci.git",
+    "commit": "128a7812f4be233c5dd7f7466f534fd888785caf",
+    "license": "individual package PKG_LICENSE from fixed feed commit"
+  },
+  "feed-routing": {
+    "repository": "https://github.com/openwrt/routing.git",
+    "commit": "3d7d0dc7fa43d3eb09498417407e95a6552e5312",
+    "license": "individual package PKG_LICENSE from fixed feed commit"
+  },
+  "vlmcsd-recipe": {
+    "repository": "https://github.com/immortalwrt/packages.git",
+    "commit": "84bd86384928955b568988ca0e09e2c78c75173d",
+    "license": "GPL-3.0-only recipe; vlmcsd MIT"
+  },
+  "lxc-reference": {
+    "repository": "https://github.com/lxc/lxc-ci.git",
+    "commit": "68c2ad30d002530333b3c6f22838d73808dde5ec",
+    "license": "Apache-2.0 image definition repository"
+  },
+  "mihomo-source": {
+    "repository": "https://github.com/MetaCubeX/mihomo.git",
+    "tag": "v1.19.32",
+    "commit": "88dcbf7f1614a67c3b36b848ee3592dfa92ada36",
+    "license": "GPL-3.0-only"
+  },
+  "xray-source": {
+    "repository": "https://github.com/XTLS/Xray-core.git",
+    "tag": "v26.9.30",
+    "commit": "b26a91de4f3294e26a0ad0a970b81a386a41f789",
+    "license": "MPL-2.0 upstream; retained SSR patch licenses"
+  },
+  "sing-box-source": {
+    "repository": "https://github.com/SagerNet/sing-box.git",
+    "tag": "v1.14.3",
+    "commit": "7054cac5124465ffdb145870d7c01885566711b1",
+    "license": "GPL-3.0-or-later"
+  },
+  "zerotier-luci": {
+    "repository": "https://github.com/immortalwrt/luci.git",
+    "commit": "5fc1fac5684cac6eee2c7fbff78c65b867980dd8",
+    "path": "applications/luci-app-zerotier",
+    "license": "GPL-3.0-only"
+  }
+}

@@ -1,0 +1,48 @@
+#!/bin/sh
+# Run only in a disposable test CT. This changes temporary CT rules/routes.
+set -eu
+[ "${1:-}" = '--disposable-ct' ] || { echo 'Use --disposable-ct in an isolated test CT'; exit 2; }
+uname -a
+echo 'Userspace versions'
+dnsmasq --version
+sing-box version
+xray version
+/etc/openclash/core/clash_meta -v
+echo 'Forwarding and redirect policy'
+sysctl net.ipv4.ip_forward net.ipv4.conf.all.send_redirects net.ipv4.conf.all.accept_redirects
+fw4 check
+nft list ruleset
+test_dir=$(mktemp -d /tmp/ct-function.XXXXXX)
+cleanup() {
+ nft delete table inet n100_test 2>/dev/null || true
+ ip -4 rule del fwmark 0x4000/0x4000 lookup 140 2>/dev/null || true
+ ip -4 route flush table 140 2>/dev/null || true
+ ip link del n100tun 2>/dev/null || true
+ ip link del n100tap 2>/dev/null || true
+ rm -rf "$test_dir"
+}
+trap cleanup EXIT INT TERM
+printf 'mode: rule\nrules:\n  - MATCH,DIRECT\n' > "$test_dir/mihomo-direct.yaml"
+ruby -ryaml -e 'puts YAML.load_file(ARGV[0])["mode"]' "$test_dir/mihomo-direct.yaml"
+/etc/openclash/core/clash_meta -t -d /etc/openclash -f "$test_dir/mihomo-direct.yaml"
+cat > "$test_dir/rules.nft" <<'EOF'
+table inet n100_test {
+ set dns_test { type ipv4_addr; }
+ chain prerouting {
+  type filter hook prerouting priority -151; policy accept;
+  ip saddr 198.18.0.0/24 meta l4proto tcp socket transparent 1 counter accept
+  ip saddr 198.18.0.0/24 meta l4proto { tcp, udp } meta mark set 0x4000 tproxy ip to 127.0.0.1:12345 counter accept
+ }
+}
+EOF
+nft -c -f "$test_dir/rules.nft"
+nft -f "$test_dir/rules.nft"
+ip -4 rule add fwmark 0x4000/0x4000 lookup 140
+ip -4 route add local 0.0.0.0/0 dev lo table 140
+ip -4 route get 198.18.0.2 mark 0x4000
+ip tuntap add dev n100tun mode tun
+ip tuntap add dev n100tap mode tap
+ip link show n100tun
+ip link show n100tap
+echo 'PASS: rule installation, policy route, TUN and TAP creation.'
+echo 'TCP/UDP payload forwarding, nftset DNS population and plugin cleanup require the target-acceptance.md procedures and actual test traffic.'

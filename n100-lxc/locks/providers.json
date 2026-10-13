@@ -1,0 +1,111 @@
+{
+  "luci-app-ssr-plus": {
+    "recipe_repository": "https://github.com/fw876/helloworld.git",
+    "recipe_commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "recipe_path": "luci-app-ssr-plus"
+  },
+  "xray-core": {
+    "recipe_repository": "https://github.com/fw876/helloworld.git",
+    "recipe_commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "recipe_path": "xray-core"
+  },
+  "mihomo": {
+    "recipe_repository": "https://github.com/fw876/helloworld.git",
+    "recipe_commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "recipe_path": "mihomo"
+  },
+  "upx": {
+    "recipe_repository": "https://github.com/fw876/helloworld.git",
+    "recipe_commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "recipe_path": "upx"
+  },
+  "dns2tcp": {
+    "recipe_repository": "https://github.com/fw876/helloworld.git",
+    "recipe_commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "recipe_path": "dns2tcp"
+  },
+  "luci-app-passwall2": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall2.git",
+    "recipe_commit": "5901e5fea7e19dfd4219cc72513957c266587680",
+    "recipe_path": "luci-app-passwall2",
+    "local_patch": "n100-lxc/patches/passwall2-nofile.diff"
+  },
+  "sing-box": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "sing-box"
+  },
+  "chinadns-ng": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "chinadns-ng"
+  },
+  "geoview": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "geoview"
+  },
+  "tcping": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "tcping"
+  },
+  "shadowsocksr-libev": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "shadowsocksr-libev"
+  },
+  "v2ray-geodata": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "v2ray-geodata"
+  },
+  "ipt2socks": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "ipt2socks"
+  },
+  "microsocks": {
+    "recipe_repository": "https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git",
+    "recipe_commit": "1af0a5c4fb3a227201683b64d32f61c65db9be72",
+    "recipe_path": "microsocks"
+  },
+  "luci-app-openclash": {
+    "recipe_repository": "https://github.com/vernesong/OpenClash.git",
+    "recipe_commit": "e553e82e01c697aefbe1555261a503f425e00ccd",
+    "recipe_path": "luci-app-openclash",
+    "local_patch": "n100-lxc/patches/openclash-lxc.diff"
+  },
+  "vlmcsd": {
+    "recipe_repository": "https://github.com/immortalwrt/packages.git",
+    "recipe_commit": "84bd86384928955b568988ca0e09e2c78c75173d",
+    "recipe_path": "net/vlmcsd"
+  },
+  "dnsmasq-full": {
+    "recipe_repository": "https://github.com/openwrt/openwrt.git",
+    "recipe_commit": "f0a60eee2fe051741c643ea6118718aae1ef17fb",
+    "recipe_path": "package/network/services/dnsmasq"
+  },
+  "ip-full": {
+    "recipe_repository": "https://github.com/openwrt/openwrt.git",
+    "recipe_commit": "f0a60eee2fe051741c643ea6118718aae1ef17fb",
+    "recipe_path": "package/network/utils/iproute2"
+  },
+  "lua-neturl": {
+    "recipe_repository": "https://github.com/fw876/helloworld.git",
+    "recipe_commit": "16617bee81157f68965994125b88ee74a822faa5",
+    "recipe_path": "lua-neturl"
+  },
+  "readline": {
+    "recipe_repository": "https://github.com/openwrt/openwrt.git",
+    "recipe_commit": "f0a60eee2fe051741c643ea6118718aae1ef17fb",
+    "recipe_path": "package/libs/readline",
+    "local_patch": "n100-lxc/patches/readline-install-backups.diff"
+  },
+  "luci-app-zerotier": {
+    "recipe_repository": "https://github.com/immortalwrt/luci.git",
+    "recipe_commit": "5fc1fac5684cac6eee2c7fbff78c65b867980dd8",
+    "recipe_path": "applications/luci-app-zerotier",
+    "local_patch": "n100-lxc/patches/zerotier-luci-openwrt.diff"
+  }
+}

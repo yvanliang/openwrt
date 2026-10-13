@@ -1,0 +1,132 @@
+--- a/luci-app-zerotier/Makefile
++++ b/luci-app-zerotier/Makefile
+@@ -5,9 +5,15 @@
+ include $(TOPDIR)/rules.mk
+ 
+ LUCI_TITLE:=LuCI for Zerotier
+-LUCI_DEPENDS:=+zerotier
++LUCI_DEPENDS:=+luci-base +zerotier
++LUCI_PKGARCH:=all
+ 
+-include ../../luci.mk
++# Fixed imported source, with official OpenWrt service compatibility changes.
++PKG_VERSION:=1.0.0
++PKG_RELEASE:=1
++PKG_LICENSE:=GPL-3.0-only
++
++include $(TOPDIR)/feeds/luci/luci.mk
+ 
+ # call BuildPackage - OpenWrt buildroot signature
+ 
+--- a/luci-app-zerotier/htdocs/luci-static/resources/view/zerotier/config.js
++++ b/luci-app-zerotier/htdocs/luci-static/resources/view/zerotier/config.js
+@@ -7,9 +7,7 @@
+ 'require form';
+ 'require poll';
+ 'require rpc';
+-'require uci';
+ 'require view';
+-'require tools.widgets as widgets';
+ 
+ const callServiceList = rpc.declare({
+ 	object: 'service',
+@@ -84,9 +82,6 @@
+ 				_('Copy the contents of the persistent configuration directory to memory instead of linking it, this avoids writing to flash.'));
+ 		o.depends({'config_path': '', '!reverse': true});
+ 
+-		o = s.option(form.Flag, 'fw_allow_input', _('Allow input traffic'),
+-			_('Allow input traffic to the ZeroTier daemon.'));
+-
+ 		o = s.option(form.Button, '_panel', _('ZeroTier Central'),
+ 			_('Create or manage your ZeroTier network, and auth clients who could access.'));
+ 		o.inputtitle = _('Open website');
+@@ -101,12 +96,9 @@
+ 		s.sortable = true;
+ 		s.nodescriptions = true;
+ 
+-		o = s.option(form.Flag, 'enabled', _('Enable'));
+-		o.default = o.enabled;
+-		o.editable = true;
+-
+ 		o = s.option(form.Value, 'id', _('Network ID'));
+ 		o.rmempty = false;
++		o.datatype = 'and(hexstring,length(16))';
+ 		o.width = '20%';
+ 
+ 		o = s.option(form.Flag, 'allow_managed', _('Allow managed IP/route'),
+@@ -126,32 +118,6 @@
+ 			_('Allow ZeroTier to set DNS servers.'));
+ 		o.editable = true;
+ 
+-		o = s.option(form.Flag, 'fw_allow_input', _('Allow input'),
+-			_('Allow input traffic from the ZeroTier network.'));
+-		o.editable = true;
+-
+-		o = s.option(form.Flag, 'fw_allow_forward', _('Allow forward'),
+-			_('Allow forward traffic from/to the ZeroTier network.'));
+-		o.editable = true;
+-
+-		o = s.option(widgets.DeviceSelect, 'fw_forward_ifaces', _('Forward interfaces'),
+-			_('Leave empty for all.'));
+-		o.multiple = true;
+-		o.noaliases = true;
+-		o.depends('fw_allow_forward', '1');
+-		o.modalonly = true;
+-
+-		o = s.option(form.Flag, 'fw_allow_masq', _('Masquerading'),
+-			_('Enable network address and port translation (NAT) for outbound traffic for this network.'));
+-		o.editable = true;
+-
+-		o = s.option(widgets.DeviceSelect, 'fw_masq_ifaces', _('Masquerade interfaces'),
+-			_('Leave empty for all.'));
+-		o.multiple = true;
+-		o.noaliases = true;
+-		o.depends('fw_allow_masq', '1');
+-		o.modalonly = true;
+-
+ 		return m.render();
+ 	}
+ });
+--- a/luci-app-zerotier/root/etc/uci-defaults/40_luci-zerotier
++++ b/luci-app-zerotier/root/etc/uci-defaults/40_luci-zerotier
+@@ -1,12 +1,4 @@
+ #!/bin/sh
+-
+-uci -q batch <<-EOF >/dev/null
+-	delete ucitrack.@zerotier[-1]
+-	commit ucitrack
+-
+-	delete firewall.zerotier
+-	commit firewall
+-EOF
+-
++# procd already reloads ZeroTier on UCI changes.
+ rm -f /tmp/luci-indexcache
+ exit 0
+--- a/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
++++ b/luci-app-zerotier/root/usr/share/luci/menu.d/luci-app-zerotier.json
+@@ -1,5 +1,5 @@
+ {
+-	"admin/vpn/zerotier": {
++	"admin/services/zerotier": {
+ 		"title": "ZeroTier",
+ 		"order": 90,
+ 		"action": {
+@@ -10,7 +10,7 @@
+ 			"uci": { "zerotier": true }
+ 		}
+ 	},
+-	"admin/vpn/zerotier/config": {
++	"admin/services/zerotier/config": {
+ 		"title": "Configuration",
+ 		"order": 10,
+ 		"action": {
+@@ -18,7 +18,7 @@
+ 			"path": "zerotier/config"
+ 		}
+ 	},
+-	"admin/vpn/zerotier/interface": {
++	"admin/services/zerotier/interface": {
+ 		"title": "Interface info",
+ 		"order": 20,
+ 		"action": {

@@ -1,0 +1,72 @@
+#!/bin/sh
+# Enforce one manager. A configured migration must precede start.
+set -eu
+disable_ssr() {
+ current=$(uci -q get shadowsocksr.@global[0].global_server || echo nil)
+ if [ "$current" != nil ] && [ -n "$current" ]; then
+  uci set "shadowsocksr.@global[0].n100_last_global_server=$current"
+ fi
+ uci -q set shadowsocksr.@global[0].global_server=nil
+ uci -q set shadowsocksr.@global[0].enable=0
+}
+snapshot() {
+ echo '=== enabled state ==='
+ uci -q get passwall2.@global[0].enabled || true
+ uci -q get shadowsocksr.@global[0].global_server || true
+ uci -q get openclash.config.enable || true
+ echo '=== processes ==='
+ ps w | grep -E 'sing-box|xray|clash|ssr-|haproxy|passwall|shadowsocksr' || true
+ echo '=== firewall ==='
+ nft -a list ruleset
+ echo '=== routing ==='
+ ip -4 rule show
+ ip -4 route show table all
+ echo '=== DNS fragments ==='
+ find /tmp/dnsmasq.d /tmp/etc -type f 2>/dev/null | grep -E 'passwall|ssr|openclash|dnsmasq' || true
+}
+case "${1:-}" in
+ status) snapshot ;;
+ stop-all)
+  for service in passwall2 shadowsocksr openclash; do
+   /etc/init.d/$service stop || true
+   /etc/init.d/$service disable
+  done
+  uci -q set passwall2.@global[0].enabled=0
+  disable_ssr
+  uci -q set openclash.config.enable=0
+  uci commit
+  /etc/init.d/dnsmasq restart
+  /etc/init.d/firewall restart
+  snapshot
+  echo 'Compare against clean snapshot. Unexplained extra routes/rules require a reboot before switching.'
+  ;;
+ start)
+  [ "${3:-}" = '--configuration-validated' ] || { echo 'Validate DNS and node configuration before starting'; exit 2; }
+  case "${2:-}" in
+   passwall2) chosen=passwall2; field='passwall2.@global[0].enabled' ;;
+   openclash) chosen=openclash; field='openclash.config.enable' ;;
+   shadowsocksr) chosen=shadowsocksr; field='shadowsocksr.@global[0].enable'
+    selected=$(uci -q get shadowsocksr.@global[0].global_server || echo nil)
+    if [ "$selected" = nil ]; then
+     selected=$(uci -q get shadowsocksr.@global[0].n100_last_global_server || echo nil)
+    fi
+    [ "$selected" != nil ] || { echo 'Select a real SSR test node'; exit 2; } ;;
+   *) exit 2 ;;
+  esac
+  for other in passwall2 shadowsocksr openclash; do
+   [ "$other" = "$chosen" ] && continue
+   /etc/init.d/$other stop || true
+   /etc/init.d/$other disable
+  done
+  uci -q set passwall2.@global[0].enabled=0
+  disable_ssr
+  uci -q set openclash.config.enable=0
+  uci set "$field=1"
+  [ "$chosen" != shadowsocksr ] || uci set "shadowsocksr.@global[0].global_server=$selected"
+  uci commit
+  /etc/init.d/$chosen enable
+  /etc/init.d/$chosen start
+  snapshot
+  ;;
+ *) echo 'Usage: proxy-manager status | stop-all | start passwall2|shadowsocksr|openclash --configuration-validated'; exit 2 ;;
+esac

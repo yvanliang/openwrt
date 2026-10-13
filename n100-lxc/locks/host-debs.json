@@ -1,0 +1,178 @@
+[
+  {
+    "package": "time",
+    "version": "1.7-25.1build1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/t/time/time_1.7-25.1build1_amd64.deb",
+    "filename": "time_1.7-25.1build1_amd64.deb",
+    "sha256": "c46db7f84e8e92004ebb437e36560e3bfe656ff79d4d1a359a8a193a6c2521c2",
+    "license_source": "Ubuntu package copyright in usr/share/doc/time/copyright"
+  },
+  {
+    "package": "libfl-dev",
+    "version": "2.6.4-6.2",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/flex/libfl-dev_2.6.4-6.2_amd64.deb",
+    "filename": "libfl-dev_2.6.4-6.2_amd64.deb",
+    "sha256": "31cdf3630a3cb6359134e4d85b368de51eec425ccd82b1835731e2e5a0560448",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libfl-dev/copyright"
+  },
+  {
+    "package": "libncurses6",
+    "version": "6.2-0ubuntu2.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/n/ncurses/libncurses6_6.2-0ubuntu2.1_amd64.deb",
+    "filename": "libncurses6_6.2-0ubuntu2.1_amd64.deb",
+    "sha256": "22d14c8c181951185994c7b912f0d7adca8f98267a4051274ece69fe61bd836c",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libncurses6/copyright"
+  },
+  {
+    "package": "libsigsegv2",
+    "version": "2.12-2",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/libs/libsigsegv/libsigsegv2_2.12-2_amd64.deb",
+    "filename": "libsigsegv2_2.12-2_amd64.deb",
+    "sha256": "58279e0a8af9cc299d7195f4b5dc1922f4b0779c1166d3715b335944102f9f7e",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libsigsegv2/copyright"
+  },
+  {
+    "package": "gettext-base",
+    "version": "0.19.8.1-10build1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/g/gettext/gettext-base_0.19.8.1-10build1_amd64.deb",
+    "filename": "gettext-base_0.19.8.1-10build1_amd64.deb",
+    "sha256": "9ae972f501db4c7193b1fe72015dcc1ef625498560e3fea77e8d8aff83018cc8",
+    "license_source": "Ubuntu package copyright in usr/share/doc/gettext-base/copyright"
+  },
+  {
+    "package": "libfakeroot",
+    "version": "1.24-1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/fakeroot/libfakeroot_1.24-1_amd64.deb",
+    "filename": "libfakeroot_1.24-1_amd64.deb",
+    "sha256": "e542e0c0543be5b02d59306d3747a527e054225816465a2c3e4c97c6e7439222",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libfakeroot/copyright"
+  },
+  {
+    "package": "libtinfo6",
+    "version": "6.2-0ubuntu2.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/n/ncurses/libtinfo6_6.2-0ubuntu2.1_amd64.deb",
+    "filename": "libtinfo6_6.2-0ubuntu2.1_amd64.deb",
+    "sha256": "711a3a901c3a71561565558865699efa9c07a99fdc810ffe086a5636f89c6431",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libtinfo6/copyright"
+  },
+  {
+    "package": "proot",
+    "version": "5.1.0-1.3",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/universe/p/proot/proot_5.1.0-1.3_amd64.deb",
+    "filename": "proot_5.1.0-1.3_amd64.deb",
+    "sha256": "01a5d27c4ac16e184bdb356c9e69fa7d494325ac653c4cd64fae4c3fc63cdbbb",
+    "license_source": "Ubuntu package copyright in usr/share/doc/proot/copyright"
+  },
+  {
+    "package": "gettext",
+    "version": "0.19.8.1-10build1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/g/gettext/gettext_0.19.8.1-10build1_amd64.deb",
+    "filename": "gettext_0.19.8.1-10build1_amd64.deb",
+    "sha256": "0d8a9202bd0e180bee0a4b715abb3974b5a4575f6e58c8803dcbadaadd0cdd76",
+    "license_source": "Ubuntu package copyright in usr/share/doc/gettext/copyright"
+  },
+  {
+    "package": "m4",
+    "version": "1.4.18-4",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/m/m4/m4_1.4.18-4_amd64.deb",
+    "filename": "m4_1.4.18-4_amd64.deb",
+    "sha256": "1ffa955ebb58829f3ab0debf7ad57b150887f6a44769edbaef68b8da9d95f306",
+    "license_source": "Ubuntu package copyright in usr/share/doc/m4/copyright"
+  },
+  {
+    "package": "file",
+    "version": "1:5.38-4",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/file/file_5.38-4_amd64.deb",
+    "filename": "file_1%3a5.38-4_amd64.deb",
+    "sha256": "01e192c5bf0dd2a2f9ef8065c3c32a79caf61887d5c2a329723f2d8bbbc8b5a8",
+    "license_source": "Ubuntu package copyright in usr/share/doc/file/copyright"
+  },
+  {
+    "package": "fakeroot",
+    "version": "1.24-1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/fakeroot/fakeroot_1.24-1_amd64.deb",
+    "filename": "fakeroot_1.24-1_amd64.deb",
+    "sha256": "2d9cc4fe6c6b0925e452d1454645171b957a37610a068e153abd6318746d996f",
+    "license_source": "Ubuntu package copyright in usr/share/doc/fakeroot/copyright"
+  },
+  {
+    "package": "bison",
+    "version": "2:3.5.1+dfsg-1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/b/bison/bison_3.5.1+dfsg-1_amd64.deb",
+    "filename": "bison_2%3a3.5.1+dfsg-1_amd64.deb",
+    "sha256": "b7898a7130a1f2f0ef85a43e5b81d977ceb3d9bf5af434eaac5d186b4d87b3f8",
+    "license_source": "Ubuntu package copyright in usr/share/doc/bison/copyright"
+  },
+  {
+    "package": "libmagic1",
+    "version": "1:5.38-4",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/file/libmagic1_5.38-4_amd64.deb",
+    "filename": "libmagic1_1%3a5.38-4_amd64.deb",
+    "sha256": "371fe893393973bf2d0c4cc0cf00a1edce70779f4edbc00e442303db4ddda0eb",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libmagic1/copyright"
+  },
+  {
+    "package": "flex",
+    "version": "2.6.4-6.2",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/flex/flex_2.6.4-6.2_amd64.deb",
+    "filename": "flex_2.6.4-6.2_amd64.deb",
+    "sha256": "67e2b65dcfdcb6f50b2a78bbf41c9a7fe5f9659017fb33b81bfb824fbdd23111",
+    "license_source": "Ubuntu package copyright in usr/share/doc/flex/copyright"
+  },
+  {
+    "package": "zstd",
+    "version": "1.4.4+dfsg-3ubuntu0.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/universe/libz/libzstd/zstd_1.4.4+dfsg-3ubuntu0.1_amd64.deb",
+    "filename": "zstd_1.4.4+dfsg-3ubuntu0.1_amd64.deb",
+    "sha256": "508bd86b6ddc5ee1ae7e6ecfcf86c6cdbde1256e2bf5aab35e44f585b6d19b8e",
+    "license_source": "Ubuntu package copyright in usr/share/doc/zstd/copyright"
+  },
+  {
+    "package": "gawk",
+    "version": "1:5.0.1+dfsg-1ubuntu0.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/g/gawk/gawk_5.0.1+dfsg-1ubuntu0.1_amd64.deb",
+    "filename": "gawk_1%3a5.0.1+dfsg-1ubuntu0.1_amd64.deb",
+    "sha256": "5d48f427156f9d65f433a90af21033051102db391b1c1a7a07babd17dced5453",
+    "license_source": "Ubuntu package copyright in usr/share/doc/gawk/copyright"
+  },
+  {
+    "package": "libtalloc2",
+    "version": "2.3.3-0ubuntu0.20.04.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/t/talloc/libtalloc2_2.3.3-0ubuntu0.20.04.1_amd64.deb",
+    "filename": "libtalloc2_2.3.3-0ubuntu0.20.04.1_amd64.deb",
+    "sha256": "dcc0bb520cecb006ad6155dacc6bed5b70bef49e5dd7949941236a1fc87c7062",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libtalloc2/copyright"
+  },
+  {
+    "package": "libmagic-mgc",
+    "version": "1:5.38-4",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/file/libmagic-mgc_5.38-4_amd64.deb",
+    "filename": "libmagic-mgc_1%3a5.38-4_amd64.deb",
+    "sha256": "5eedb1499739fbc4df22d5347dfac620b919e7c271716f735c78f8f3c3fbd2f0",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libmagic-mgc/copyright"
+  },
+  {
+    "package": "libncurses-dev",
+    "version": "6.2-0ubuntu2.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/n/ncurses/libncurses-dev_6.2-0ubuntu2.1_amd64.deb",
+    "filename": "libncurses-dev_6.2-0ubuntu2.1_amd64.deb",
+    "sha256": "960dd220384df010d6afc56183312cfeb92c2d316138627e81a52e40a0a56b0e",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libncurses-dev/copyright"
+  },
+  {
+    "package": "libfl2",
+    "version": "2.6.4-6.2",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/f/flex/libfl2_2.6.4-6.2_amd64.deb",
+    "filename": "libfl2_2.6.4-6.2_amd64.deb",
+    "sha256": "de6c0f0afce0a1df7e3834c2e65a46d69b419eb9c6943914949b950cf4003fd4",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libfl2/copyright"
+  },
+  {
+    "package": "libcroco3",
+    "version": "0.6.13-1ubuntu0.1",
+    "url": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/pool/main/libc/libcroco/libcroco3_0.6.13-1ubuntu0.1_amd64.deb",
+    "filename": "libcroco3_0.6.13-1ubuntu0.1_amd64.deb",
+    "sha256": "6807ade076c2131578c72d8b6a42ae8efdac5fb64a8620673d26e4b5dfe4fff0",
+    "license_source": "Ubuntu package copyright in usr/share/doc/libcroco3/copyright"
+  }
+]

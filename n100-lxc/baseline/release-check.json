@@ -1,0 +1,37 @@
+[
+  {
+    "repository": "openwrt/openwrt",
+    "tag": "v25.12.5",
+    "published_at": "2026-07-01T00:10:15Z",
+    "prerelease": false,
+    "url": "https://github.com/openwrt/openwrt/releases/tag/v25.12.5"
+  },
+  {
+    "repository": "Openwrt-Passwall/openwrt-passwall2",
+    "tag": "26.10.1-2",
+    "published_at": "2026-10-02T07:37:18Z",
+    "prerelease": false,
+    "url": "https://github.com/Openwrt-Passwall/openwrt-passwall2/releases/tag/26.10.1-2"
+  },
+  {
+    "repository": "fw876/helloworld",
+    "tag": "v196.19",
+    "published_at": "2026-10-07T12:36:03Z",
+    "prerelease": false,
+    "url": "https://github.com/fw876/helloworld/releases/tag/v196.19"
+  },
+  {
+    "repository": "vernesong/OpenClash",
+    "tag": "v0.48.002",
+    "published_at": "2026-10-12T03:40:07Z",
+    "prerelease": false,
+    "url": "https://github.com/vernesong/OpenClash/releases/tag/v0.48.002"
+  },
+  {
+    "repository": "MetaCubeX/mihomo",
+    "tag": "v1.19.32",
+    "published_at": "2026-09-30T17:09:36Z",
+    "prerelease": false,
+    "url": "https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32"
+  }
+]

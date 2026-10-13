@@ -1,0 +1,79 @@
+--- a/luci-app-openclash/Makefile
++++ b/luci-app-openclash/Makefile
+@@ -2,6 +2,7 @@
+ 
+ PKG_NAME:=luci-app-openclash
+ PKG_VERSION:=0.48.002
++PKG_RELEASE:=1
+ PKG_MAINTAINER:=vernesong <https://github.com/vernesong/OpenClash>
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
+--- a/luci-app-openclash/root/etc/init.d/openclash
++++ b/luci-app-openclash/root/etc/init.d/openclash
+@@ -83,10 +83,10 @@
+       [ "$(uci_get_config "geoasn_auto_update")" -eq 1 ] && echo "0 $(uci_get_config "geoasn_update_day_time" || 1) * * $(uci_get_config "geoasn_update_week_time" || 0) /usr/share/openclash/openclash_geo.sh geoasn #openclash-cron-task" >> $CRON_FILE
+    }
+    [ -z "$(grep "openclash_chnroute.sh" "$CRON_FILE" 2>/dev/null)" ] && {
+-      [ "$(uci_get_config "chnr_auto_update")" -eq 1 ] && echo "0 $(uci_get_config "chnr_update_day_time" || 1) * * $(uci_get_config "chnr_update_week_time" || 0) /usr/share/openclash/openclash_chnroute.sh #openclash-cron-task" >> $CRON_FILE
++      [ "$(uci_get_config "chnr_auto_update")" = 1 ] && echo "0 $(uci_get_config "chnr_update_day_time" || 1) * * $(uci_get_config "chnr_update_week_time" || 0) /usr/share/openclash/openclash_chnroute.sh #openclash-cron-task" >> $CRON_FILE
+    }
+    [ -z "$(grep -E "dispatch_restart #openclash-cron-task|/etc/init.d/openclash restart #openclash-cron-task" "$CRON_FILE" 2>/dev/null)" ] && {
+-      [ "$(uci_get_config "auto_restart")" -eq 1 ] && echo "0 $(uci_get_config "auto_restart_day_time" || 1) * * $(uci_get_config "auto_restart_week_time" || 0) /etc/init.d/openclash restart #openclash-cron-task" >> $CRON_FILE
++      [ "$(uci_get_config "auto_restart")" = 1 ] && echo "0 $(uci_get_config "auto_restart_day_time" || 1) * * $(uci_get_config "auto_restart_week_time" || 0) /etc/init.d/openclash restart #openclash-cron-task" >> $CRON_FILE
+    }
+ 
+    config_load "openclash"
+@@ -850,9 +850,14 @@
+    # Set TCP Fast Open blackhole timeout to 0 (disable detection) for nodes TFO availability
+    [ -e /proc/sys/net/ipv4/tcp_fastopen_blackhole_timeout_sec ] && echo 0 > /proc/sys/net/ipv4/tcp_fastopen_blackhole_timeout_sec 2>/dev/null
+ 
+-   ulimit -SHn 1000000
+-   ulimit -v unlimited
+-   ulimit -u unlimited
++   # An unprivileged PVE CT cannot raise the host's hard RLIMIT_NOFILE.
++   local openclash_fd_hard="$(awk '$1 == "Max" && $2 == "open" && $3 == "files" { print $5 }' /proc/1/limits 2>/dev/null)"
++   [ -n "$openclash_fd_hard" ] || openclash_fd_hard="$(ulimit -Hn)"
++   local openclash_fd_soft=65535
++   if [ "$openclash_fd_hard" != "unlimited" ] && [ "$openclash_fd_hard" -lt "$openclash_fd_soft" ]; then
++      openclash_fd_soft="$openclash_fd_hard"
++   fi
++   ulimit -Sn "$openclash_fd_soft"
+ 
+    if ! $QUICK_START; then
+       mv "$TMP_CONFIG_FILE" "$CONFIG_FILE"
+@@ -867,7 +872,7 @@
+    procd_set_param command /bin/sh -c "exec $CLASH -d $CLASH_CONFIG -f \"$CONFIG_FILE\" >> $LOG_FILE 2>&1"
+    procd_set_param user "root"
+    procd_set_param group "nogroup"
+-   procd_set_param limits nproc="unlimited" as="unlimited" memlock="unlimited" nofile="1000000 1000000"
++   procd_set_param limits nofile="$openclash_fd_soft $openclash_fd_hard"
+    procd_set_param respawn 300 5 3
+    procd_set_param stderr 1
+    procd_set_param no_new_privs 1
+--- a/luci-app-openclash/root/etc/config/openclash
++++ b/luci-app-openclash/root/etc/config/openclash
+@@ -10,6 +10,8 @@
+ 	option update '0'
+ 	option en_mode '0'
+ 	option auto_update '0'
++	option auto_restart '0'
++	option chnr_auto_update '0'
+ 	option auto_update_time '0'
+ 	option cn_port '9090'
+ 	option dashboard_forward_ssl '0'
+--- a/luci-app-openclash/root/etc/uci-defaults/luci-openclash
++++ b/luci-app-openclash/root/etc/uci-defaults/luci-openclash
+@@ -1,6 +1,13 @@
+ #!/bin/bash
+ . /lib/functions.sh
+ . /usr/share/openclash/uci.sh
++
++# Initialize missing numeric options without replacing existing user values.
++for option in auto_restart chnr_auto_update; do
++	uci -q get "openclash.config.$option" >/dev/null 2>&1 ||
++		uci -q set "openclash.config.$option=0"
++done
++uci -q commit openclash
+ 
+ [ -e "/etc/config/ucitrack" ] && {
+ uci -q delete ucitrack.@openclash[-1]
